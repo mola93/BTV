@@ -13,7 +13,6 @@ import ajax  from './src/ajax';
 import PostsList from './src/PostsList';
 import PostDetail from './src/PostDetail';
 
-console.disableYellowBox = true;
 
 export default class App extends Component {
    
@@ -37,6 +36,12 @@ setCurrentPost = (postId) => {
   });
 
 };
+unSetCurrentPost = () => {
+  this.setState({
+  currentPostId: null
+});
+
+};
 
 currentPost = () => {
 
@@ -47,7 +52,9 @@ currentPost = () => {
   render() {
 
     if(this.state.currentPostId){
-       return (<PostDetail post={this.currentPost()}/>);
+       return (<PostDetail initialPostData={this.currentPost()}
+                           onBack={this.unSetCurrentPost}
+       />);
     }
     if(this.state.posts.length > 0 ){
       return (
