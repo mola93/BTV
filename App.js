@@ -8,15 +8,18 @@
  */
 
 import React, { Component } from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View} from 'react-native';
 import ajax  from './src/ajax';
 import PostsList from './src/PostsList';
+import PostDetail from './src/PostDetail';
 
+console.disableYellowBox = true;
 
 export default class App extends Component {
    
   state = {
-    posts: []
+    posts: [],
+    currentPostId: null
   }
 
 async componentDidMount(){
@@ -28,19 +31,33 @@ async componentDidMount(){
 
 }
 
+setCurrentPost = (postId) => {
+    this.setState({
+    currentPostId: postId
+  });
+
+};
+
+currentPost = () => {
+
+  return this.state.posts.find(
+    (post) => post.id === this.state.currentPostId
+  )
+}
   render() {
+
+    if(this.state.currentPostId){
+       return (<PostDetail post={this.currentPost()}/>);
+    }
+    if(this.state.posts.length > 0 ){
+      return (
+      <PostsList posts={this.state.posts} onItemPress={this.setCurrentPost}/>
+      );
+
+    }
     return (
       <View style={styles.container}>
-      {
-        this.state.posts.length > 0 ? (
-          <PostsList posts={this.state.posts}/>
-
-        ) : (
-          <Text>loading....</Text>
-        )
-
-
-      }
+        <Text>loading....</Text>
       </View>
     );
   }
