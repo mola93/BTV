@@ -13,6 +13,9 @@ import ajax  from './src/ajax';
 import PostsList from './src/PostsList';
 import PostDetail from './src/PostDetail';
 
+console.disableYellowBox = true;
+console.reportErrorsAsExceptions = false;
+
 
 export default class App extends Component {
    
