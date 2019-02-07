@@ -83,12 +83,12 @@ class PostDetail extends Component {
             <ScrollView style={styles.detail}>
               <View style={styles.footer}>
                 <View style={styles.info}>
-                  <Text style={styles.cause}>yooooo</Text>
+                  <Text style={styles.cause}>{post.author.name}</Text>
                </View>
                
                   <View style={styles.user}>
                     
-                    <Text>ufufufuff</Text>
+                    <Text>{post.date}</Text>
                   </View>
              
               </View>
@@ -112,7 +112,7 @@ class PostDetail extends Component {
 
 const styles = StyleSheet.create({
     post: {
-      marginBottom: 20,
+      marginBottom: 10,
       backgroundColor: 'white'
     },
     backLink: {
@@ -160,10 +160,9 @@ const styles = StyleSheet.create({
       borderColor: '#ddd',
       borderWidth: 1,
       borderStyle: 'dotted',
-      margin: 10,
+      margin: 0,
       padding: 10,
       backgroundColor:'white',
-      height: 100
     },
   });
 
