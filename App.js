@@ -8,7 +8,7 @@
  */
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator} from 'react-native';
 import ajax  from './src/ajax';
 import PostsList from './src/PostsList';
 import PostDetail from './src/PostDetail';
@@ -63,8 +63,8 @@ currentPost = () => {
 
     }
     return (
-      <View style={styles.container}>
-        <Text>loading....</Text>
+      <View style={[styles.container, styles.horizontal]}>
+<ActivityIndicator size="large" color="#0000ff" />
       </View>
     );
   }
@@ -76,6 +76,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10
   }
  
 });
