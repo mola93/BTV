@@ -6,7 +6,7 @@ import {View, Text, StyleSheet,  Animated,
 } from  'react-native';
 import ajax from './ajax';
 import HTMLView from 'react-native-htmlview';
-
+ 
 
 class PostDetail extends Component {
     imageXPos = new Animated.Value(0);
@@ -69,7 +69,7 @@ class PostDetail extends Component {
         return(
             <View style={styles.post}>
             <TouchableOpacity onPress={this.props.onBack}>
-              <Text style={styles.backLink}>Back</Text>
+              <Text style={styles.backLink}>Go Back</Text>
             </TouchableOpacity>
             <Animated.Image
               {...this.imagePanResponder.panHandlers}
