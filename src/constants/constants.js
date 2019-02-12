@@ -1,0 +1,10 @@
+const constants = {
+    FETCH_POSTS: "FETCH_POSTS",
+    FETCH_CATEGORIES:"FETCH_CATEGORIES",
+    VIEW_POST:"VIEW_POST",
+    VIEW_CATEGORY:"VIEW_CATEGORY",
+    ADD_ERROR:"ADD_ERROR",
+    CLEAR_ERROR:"CLEAR_ERROR"
+}
+
+export default constants;

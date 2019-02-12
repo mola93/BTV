@@ -6,69 +6,80 @@
  * @flow
  * @lint-ignore-every XPLATJSCOPYRIGHT1
  */
+import {Provider} from 'react-redux';
+import { createStore,compose, applyMiddleware} from 'redux';
+import posts from './src/reducers/PostsReducer';
+import thunk from 'redux-thunk';
+import axios from 'axios';
 
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator} from 'react-native';
 import ajax  from './src/ajax';
 import PostsList from './src/PostsList';
 import PostDetail from './src/PostDetail';
+import AppContainer from './src/Navigation';
+
 
 console.disableYellowBox = true;
 console.reportErrorsAsExceptions = false;
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(
+  posts,
+  composeEnhancer(applyMiddleware(thunk)),
+);
+
+const apiHost = 'https://www.blocktvgambia.com';
 
 
-export default class App extends Component {
+ export default class App extends Component {
    
-  state = {
-    posts: [],
-    currentPostId: null
+ state = {
+      data: false,
+    };
+ 
+
+   componentDidMount(){
+     
+      return axios.get(apiHost + "/api/get_posts?count=20")
+      .then((response) => {
+       if(response !== null){
+        this.setState({
+          data:true
+        })
+       }
+      })
+    .catch((err) => {
+       console.log(err)
+     });
+     
+     
+   };
+   renderInitialView(){
+    switch (this.state.data == true ) {
+      case true:
+      return    ( <AppContainer   />
+
+      )
+                
+         
+
+     default:
+     return   <ActivityIndicator size="large" color="#0000ff" />;
+
+    }
   }
-
-async componentDidMount(){
-
-  const posts = await ajax.fetchInitialPosts();
-  this.setState({ posts });
-
-  console.log(posts);
-
-}
-
-setCurrentPost = (postId) => {
-    this.setState({
-    currentPostId: postId
-  });
-
-};
-unSetCurrentPost = () => {
-  this.setState({
-  currentPostId: null
-});
-
-};
-
-currentPost = () => {
-
-  return this.state.posts.find(
-    (post) => post.id === this.state.currentPostId
-  )
-}
+ 
   render() {
+    
+    
+    return (        
+          <Provider store={store}>
 
-    if(this.state.currentPostId){
-       return (<PostDetail initialPostData={this.currentPost()}
-                           onBack={this.unSetCurrentPost}
-       />);
-    }
-    if(this.state.posts.length > 0 ){
-      return (
-      <PostsList posts={this.state.posts} onItemPress={this.setCurrentPost}/>
-      );
 
-    }
-    return (
-      <View style={[styles.container, styles.horizontal]}>
-<ActivityIndicator size="large" color="#0000ff" />
-      </View>
+   { this.renderInitialView()}
+       
+      </Provider>
     );
   }
 }
@@ -87,3 +98,5 @@ const styles = StyleSheet.create({
   }
  
 });
+ 
+ 

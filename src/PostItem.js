@@ -1,28 +1,28 @@
 import React, {Component} from 'react';
+import * as actions from './actions';
+import {connect } from 'react-redux';  
 
 import {View, Text, StyleSheet, ScrollView, TouchableOpacity ,Image} from  'react-native';
 
-class PostItem extends Component {
+const PostItem =(props) =>{
 
-    handlePress = () => {
-        this.props.onPress(this.props.post.id);
-      };
-    render(){
+ 
+    
         return(
-            <TouchableOpacity style={styles.post} onPress={this.handlePress}>
+            <TouchableOpacity style={styles.post}  onPress ={() => props.selectPost(props.posts)}>
 
        
              
-            <Image source={{ uri:this.props.post.thumbnail_images
+            <Image source={{ uri:props.posts.thumbnail_images
         ['medium'].url    
         }} 
             style={styles.image}
             />
              <View style={styles.info}>
-                  <Text>{this.props.post.title}</Text>
+                  <Text>{props.posts.title}</Text>
 
                   <View style={styles.footer}>
-                  <Text>{this.props.post.date}</Text>
+                  <Text>{props.posts.date}</Text>
 
                   </View>
          </View>
@@ -30,13 +30,13 @@ class PostItem extends Component {
 
         );
     }
-}
+ 
 
 
 const styles = StyleSheet.create({
     post: {
       marginHorizontal: 12,
-      marginTop: 12,
+      marginTop: 22,
     },
     image: {
       width: '100%',
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
   });
    
 
-export default PostItem;
+  export default connect(null, actions)(PostItem)
