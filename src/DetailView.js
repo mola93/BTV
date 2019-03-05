@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     post: {
       marginBottom: 10,
       backgroundColor: 'white',
-      paddingTop:50
+      paddingTop:50,
     },
     backLink: {
       marginBottom: 5,
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       borderStyle: 'dotted',
       margin: 0,
-      padding: 10,
+      padding: 0,
       backgroundColor:'white',
     },
   });

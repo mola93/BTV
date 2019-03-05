@@ -74,7 +74,7 @@ const AppRoot = createAppContainer(AppDrawerNavigator);
 
    componentDidMount(){
      
-      return axios.get(apiHost + "/api/get_posts?count=20")
+      return axios.get(apiHost + "/api/get_posts?count=1")
       .then((response) => {
        if(response !== null){
         this.setState({
@@ -94,11 +94,9 @@ const AppRoot = createAppContainer(AppDrawerNavigator);
       return    ( <AppRoot   />
 
       )
-                
-         
-
+     
      default:
-     return   <ActivityIndicator size="large" color="#0000ff" />;
+     return   <ActivityIndicator size="large" color="white" />;
 
     }
   }
