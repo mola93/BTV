@@ -1,28 +1,18 @@
 import React, {Component} from 'react';
-import Icon from 'react-native-vector-icons/EvilIcons';
-import  { loadInitialPosts} from './actions';
+import  { loadInitialPosts, loadInitialCategories} from './actions';
 import {connect } from 'react-redux';  
 import _ from 'lodash';
 
 import {View, StyleSheet,FlatList} from  'react-native';
 import PostItem from './PostItem';
 import PostDetail from './PostDetail';
+import { Header, Left, Right , Body, Title, Icon} from 'native-base';
 
 class PostsList extends Component {
-    static navigationOptions = { 
-       
-        tabBarLabel: 'Home',
-        tabBarIcon: ({tintColor}) => (
-          <Icon 
-          name={'user'}
-          size={50}
-          style={{ color:tintColor}} />
-        )
-   
 
-}
 componentWillMount() {
     this.props.loadInitialPosts();
+    this.props.loadInitialCategories();
     }
 
     renderItem({item}) {
@@ -50,8 +40,18 @@ componentWillMount() {
 
     render(){
         return(
+          
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+         
                   <View style={styles.list}>
+                  <Header style={{ backgroundColor: '#a50000' , marginTop:20}}>
+                 <Left>
+                    <Icon name="menu" onPress={()=> this.props.navigation.openDrawer()} />
+                 </Left>
+                 <Body>
+            <Title style={{ alignItems: 'center' , marginRight: 100, color:'white'}}>Block TV</Title>
+          </Body>
+              </Header >
           {this.renderInitialView()}
           </View>
             </View>
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     list: {
         backgroundColor: '#eee',
         width: '100%',
-        paddingTop: 50,
+        paddingTop: 40,
     },
 });
  
@@ -81,4 +81,4 @@ const mapStateToProps = state => {
           };
   }
 
-export default connect(mapStateToProps, { loadInitialPosts })(PostsList)
+export default connect(mapStateToProps, { loadInitialPosts, loadInitialCategories })(PostsList)

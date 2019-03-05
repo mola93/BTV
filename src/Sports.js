@@ -1,12 +1,17 @@
 import React, {Component} from 'react';
 import Icon from 'react-native-vector-icons/EvilIcons';
+import  { sportsPosts} from './actions';
+import {connect } from 'react-redux';  
+import _ from 'lodash';
 
-import {View, StyleSheet,FlatList,Text} from  'react-native';
+import {View, StyleSheet,FlatList} from  'react-native';
 import PostItem from './PostItem';
+import PostDetail from './PostDetail';
+
 class Sports extends Component {
     static navigationOptions = { 
        
-        tabBarLabel: 'sports',
+        tabBarLabel: 'SPORTS',
         tabBarIcon: ({tintColor}) => (
           <Icon 
           name={'user'}
@@ -14,17 +19,43 @@ class Sports extends Component {
           style={{ color:tintColor}} />
         )
    
-        
-  
+
 }
+componentWillMount() {
+    this.props.sportsPosts();
+    }
+
+    renderItem({item}) {
+        return <PostItem posts = { item } />;
+      }
+      renderInitialView(){
+        if (this.props.postDetailView === true){
+            return  (
+              
+              <PostDetail />
+            );
+          
+          }  else {
+         
+            return(
+
+                <FlatList 
+                data={this.props.posts} 
+                renderItem={this.renderItem} />
+            )
+          
+    
+          }
+      }
+
     render(){
         return(
-          
-
-            <View style={styles.list}>
-
-            <Text>sports news......</Text>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                  <View style={styles.list}>
+          {this.renderInitialView()}
+          </View>
             </View>
+      
          );
     }
 }
@@ -36,6 +67,18 @@ const styles = StyleSheet.create({
         paddingTop: 50,
     },
 });
+ 
 
+const mapStateToProps = state => {
+ 
+    const posts = _.map(state.posts, (val, id) => {
+      return { ...val, id};
+    });
+  
+    return { 
+             posts: posts,
+             postDetailView: state.postDetailView,
+          };
+  }
 
-export default Sports;
+export default connect(mapStateToProps, { sportsPosts })(Sports)

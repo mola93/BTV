@@ -1,13 +1,17 @@
 import React, {Component} from 'react';
 import Icon from 'react-native-vector-icons/EvilIcons';
+import  { politicsPosts} from './actions';
+import {connect } from 'react-redux';  
+import _ from 'lodash';
 
-import {View, StyleSheet,FlatList, Text} from  'react-native';
+import {View, StyleSheet,FlatList} from  'react-native';
 import PostItem from './PostItem';
+import PostDetail from './PostDetail';
+
 class Politics extends Component {
-    
     static navigationOptions = { 
        
-        tabBarLabel: 'Politics',
+        tabBarLabel: 'POLITICS',
         tabBarIcon: ({tintColor}) => (
           <Icon 
           name={'user'}
@@ -15,17 +19,47 @@ class Politics extends Component {
           style={{ color:tintColor}} />
         )
    
-        
-  
+
 }
+ 
+
+componentWillMount() {
+    this.props.politicsPosts();
+  
+
+    }
+
+    renderItem({item}) {
+        return <PostItem posts = { item } />;
+      }
+      renderInitialView(){
+        if (this.props.postDetailView === true){
+            return  (
+              
+              <PostDetail />
+            );
+          
+          }  else {
+         
+            return(
+
+                <FlatList 
+                data={this.props.posts} 
+                renderItem={this.renderItem} />
+            )
+          
+    
+          }
+      }
+
     render(){
         return(
-          
-
-            <View style={styles.list}>
-<Text>politics news.......</Text>
-              
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                  <View style={styles.list}>
+          {this.renderInitialView()}
+          </View>
             </View>
+      
          );
     }
 }
@@ -37,6 +71,18 @@ const styles = StyleSheet.create({
         paddingTop: 50,
     },
 });
+ 
 
+const mapStateToProps = state => {
+ 
+    const posts = _.map(state.posts, (val, id) => {
+      return { ...val, id};
+    });
+  
+    return { 
+             posts: posts,
+             postDetailView: state.postDetailView,
+          };
+  }
 
-export default Politics;
+export default connect(mapStateToProps, { politicsPosts })(Politics)

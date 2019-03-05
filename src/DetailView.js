@@ -9,13 +9,15 @@ import HTMLView from 'react-native-htmlview';
 import {connect } from 'react-redux';  
 import * as actions from './actions';
 
+import moment from 'moment';
 
 class DetailView extends Component {
 
  
     
     render(){
- 
+      const date = moment(this.props.post.date).format('LL')
+
 
         return(
             <View style={styles.post}>
@@ -38,7 +40,7 @@ class DetailView extends Component {
                
                   <View style={styles.user}>
                     
-                    <Text>{this.props.post.date}</Text>
+                    <Text>{date}</Text>
                   </View>
              
               </View>
@@ -61,6 +63,7 @@ const styles = StyleSheet.create({
     post: {
       marginBottom: 10,
       backgroundColor: 'white',
+      paddingTop:50
     },
     backLink: {
       marginBottom: 5,

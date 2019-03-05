@@ -6,18 +6,25 @@
  * @flow
  * @lint-ignore-every XPLATJSCOPYRIGHT1
  */
+import { createSwitchNavigator,
+  createAppContainer,
+  createDrawerNavigator,
+  createBottomTabNavigator,
+  createStackNavigator, DrawerItems  } from'react-navigation';
 import {Provider} from 'react-redux';
 import { createStore,compose, applyMiddleware} from 'redux';
 import posts from './src/reducers/PostsReducer';
 import thunk from 'redux-thunk';
 import axios from 'axios';
+import {About} from './src/About';
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ActivityIndicator} from 'react-native';
+import { StyleSheet, Text, View, Image, ActivityIndicator, SafeAreaView} from 'react-native';
 import ajax  from './src/ajax';
 import PostsList from './src/PostsList';
 import PostDetail from './src/PostDetail';
 import AppContainer from './src/Navigation';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 console.disableYellowBox = true;
@@ -31,7 +38,33 @@ const store = createStore(
 
 const apiHost = 'https://www.blocktvgambia.com';
 
+const CustomDrawerComponent =(props) => (
+  <SafeAreaView style={{flex:1}}>
+    <View style={{height: 150, backgroundColor:'white', alignItems:'center', justifyContent:'center'}}>
+       <Image source={require('./src/screenn.jpeg') } style={{height:150, width:180, 
+      borderRadius:60
+      }}/>
+    </View>
+    <ScrollView>
+     
+     <DrawerItems {...props}/>
+     
 
+     
+    </ScrollView>
+
+  </SafeAreaView>
+)
+
+const AppDrawerNavigator = createDrawerNavigator({
+  Home: PostsList,
+  About: About
+},
+{
+  contentComponent: CustomDrawerComponent
+}
+)
+const AppRoot = createAppContainer(AppDrawerNavigator);
  export default class App extends Component {
    
  state = {
@@ -58,7 +91,7 @@ const apiHost = 'https://www.blocktvgambia.com';
    renderInitialView(){
     switch (this.state.data == true ) {
       case true:
-      return    ( <AppContainer   />
+      return    ( <AppRoot   />
 
       )
                 

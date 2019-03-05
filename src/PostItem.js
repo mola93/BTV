@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import * as actions from './actions';
 import {connect } from 'react-redux';  
-
+import moment from 'moment';
 import {View, Text, StyleSheet, ScrollView, TouchableOpacity ,Image} from  'react-native';
 
 const PostItem =(props) =>{
 
- 
+  const date = moment(props.posts.date).format('LL')
+
+
     
         return(
             <TouchableOpacity style={styles.post}  onPress ={() => props.selectPost(props.posts)}>
@@ -22,7 +24,7 @@ const PostItem =(props) =>{
                   <Text>{props.posts.title}</Text>
 
                   <View style={styles.footer}>
-                  <Text>{props.posts.date}</Text>
+                  <Text>{date}</Text>
 
                   </View>
          </View>
